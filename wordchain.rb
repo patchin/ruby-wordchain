@@ -7,32 +7,13 @@
 # TODO: Optimize if necessary.
 
 # create list of all words because we will need this frequently
-words = []
+$words = []
 File.open("input.txt", "r") do |f|
   f.each_line do |line|
     line.split.each do |x|
-     words << x 
+     $words << x 
     end     
   end
-end
-
-#puts words
-
-def main
-  nodes = Hash.new
-  words.each do |x|
-    nodes[x] = get_neighbours(x)
-  end
-end
-
-def get_neighbours(x)
-  results = []
-  words.each do |y|
-    if neighbours(x,y)
-      results << y
-    end
-  end
-  results
 end
 
 def neighbours(x, y)
@@ -45,3 +26,20 @@ def neighbours(x, y)
   end
   diff <= 1
 end
+
+def get_neighbours(x)
+  results = []
+  $words.each do |y|
+    if neighbours(x,y)
+      results << y
+    end
+  end
+  results
+end
+
+nodes = Hash.new
+$words.each do |x|
+  nodes[x] = get_neighbours(x)
+end
+
+#puts nodes
