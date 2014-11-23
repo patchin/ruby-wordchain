@@ -37,9 +37,33 @@ def get_neighbours(x)
   results
 end
 
-nodes = Hash.new
+$nodes = Hash.new
 $words.each do |x|
-  nodes[x] = get_neighbours(x)
+  $nodes[x] = get_neighbours(x)
 end
 
 #puts nodes
+# TODO Generate node file and just read it in rather than generate it
+# each time.
+
+#puts "Enter the start word."
+#puts "Enter the end word."
+
+def find_path(start, endword, maxdepth=5)
+  return [false, nil] if maxdepth == 0
+  return [false, nil] if !$nodes[start]
+  return [false, nil] if !$nodes[endword]
+  if $nodes[start].include?(endword)
+    return [true,[start, endword]]
+  else
+    $nodes[start].each do |y|
+      result = find_path(y, endword, maxdepth-1)  
+      if result.first
+        return [true, result[1].unshift(start)]
+      end 
+    end
+    return [false, nil]
+  end
+end
+
+puts find_path("HATE", "LOVE")
